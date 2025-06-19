@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Layout from "../components/layout";
-import { adminLogin } from "../api";
+import Layout from "../components/Layout.jsx";
+import { adminLogin } from "../api.js";
 
 export default function AdminLogin({ onLogin }) {
   const [username, setUsername] = useState("");

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { toast, ToastContainer } from "react-toastify";
-import { getSlots } from "../api";
+import { getSlots } from "../api.js";
 import SlotBookingModal from "../components/SlotBookingModal";
-import Layout from "../components/layout";
-import { isSameDay } from "../utils";
+import Layout from "../components/Layout.jsx";
+import { isSameDay } from "../utils/index.js";
 
 export default function Home() {
   const [slotsByDate, setSlotsByDate] = useState([]);

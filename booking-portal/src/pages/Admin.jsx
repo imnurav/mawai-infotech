@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { getAllBookings, updateBooking, deleteBooking } from "../api";
-import EditBookingModal from "../components/EditBookingModal";
-import ConfirmModal from "../components/ConfirmModal";
-import Layout from "../components/layout";
+import { getAllBookings, updateBooking, deleteBooking } from "../api.js";
+import EditBookingModal from "../components/EditBookingModal.jsx";
+import ConfirmModal from "../components/ConfirmModal.jsx";
+import Layout from "../components/Layout.jsx";
 
 export default function AdminPanel() {
   const [bookings, setBookings] = useState([]);
