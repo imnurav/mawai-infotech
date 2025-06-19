@@ -28,3 +28,11 @@ A full-stack appointment booking system built with **React (Vite)** for the fron
 mawai-infotech/
 ├── booking-portal/   # Frontend (Vite React App)
 ├── server/           # Backend (Express + MongoDB API)
+```
+
+### 🔗 Live URLs
+Frontend (User + Admin Portal):
+👉 https://mawai-infotech.vercel.app
+
+Backend API (Render):
+👉 https://server-kcu8.onrender.com
