@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API = axios.create({ baseURL: "http://localhost:3001/api" });
+const API = axios.create({ baseURL: import.meta.env.VITE_API });
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("adminToken");
