@@ -6,6 +6,7 @@ import { getSlots } from "../api.js";
 import SlotBookingModal from "../components/SlotBookingModal";
 import Layout from "../components/Layout.jsx";
 import { isSameDay } from "../utils/index.js";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Home() {
   const [slotsByDate, setSlotsByDate] = useState([]);
@@ -13,9 +14,11 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [modalSlot, setModalSlot] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
 
-  const fetchSlots = async () => {
+  const fetchSlots = async (load = false) => {
     try {
+      if (load) setLoading(true);
       const { data } = await getSlots();
       setSlotsByDate(data);
 
@@ -24,15 +27,16 @@ export default function Home() {
 
       const queryDate = searchParams.get("date");
       const initialDate = queryDate ? new Date(queryDate) : new Date();
-
       setSelectedDate(isNaN(initialDate) ? new Date() : initialDate);
     } catch {
       toast.error("Failed to fetch slots");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchSlots();
+    fetchSlots(true);
   }, []);
 
   const handleDateChange = (date) => {
@@ -52,7 +56,9 @@ export default function Home() {
 
   return (
     <Layout title="Book an Appointment">
+      {/* Date selection section */}
       <div className="flex flex-col md:flex-row md:justify-between items-center gap-4 mb-6 px-4">
+        {/* Scrollable Date Buttons */}
         <div className="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
           {availableDates.map((date) => {
             const isSelected = isSameDay(selectedDate, date);
@@ -76,6 +82,7 @@ export default function Home() {
           })}
         </div>
 
+        {/* Custom Date Picker */}
         <div className="flex justify-center">
           <DatePicker
             selected={selectedDate}
@@ -91,14 +98,18 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Slot Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4">
-        {filteredSlots.length > 0 ? (
+        {loading ? (
+          <div className="col-span-full flex justify-center py-10">
+            <div className="w-6 h-6 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+          </div>
+        ) : filteredSlots.length > 0 ? (
           filteredSlots.map((slot) => {
             const [hour, minute] = slot.time.split(":");
             const endTime = `${String(+hour + 1).padStart(2, "0")}:${minute}`;
             const timeLabel = `${slot.time} - ${endTime}`;
 
-            // Determine button style based on availability
             let bgColor = "bg-green-100 hover:bg-green-200";
             if (slot.availableCount === 0)
               bgColor = "bg-red-100 hover:bg-red-200 !cursor-not-allowed";
@@ -133,6 +144,7 @@ export default function Home() {
         )}
       </div>
 
+      {/* Slot Booking Modal */}
       {modalSlot && (
         <SlotBookingModal
           slot={modalSlot}
