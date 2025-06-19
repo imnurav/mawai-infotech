@@ -1,6 +1,5 @@
 {
   "name": "server",
-  "packageManager": "yarn@4.5.2",
   "type": "module",
   "scripts": {
     "dev": "nodemon ./src/server.js",
