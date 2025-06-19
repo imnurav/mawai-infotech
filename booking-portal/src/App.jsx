@@ -8,19 +8,28 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("adminToken")
   );
-  console.log({ isLoggedIn });
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+
         <Route
           path="/admin/login"
-          element={<AdminLogin onLogin={() => setIsLoggedIn(true)} />}
+          element={
+            isLoggedIn ? (
+              <Navigate to="/admin" replace />
+            ) : (
+              <AdminLogin onLogin={() => setIsLoggedIn(true)} />
+            )
+          }
         />
+
         <Route
           path="/admin"
-          element={isLoggedIn ? <AdminPanel /> : <Navigate to="/admin/login" />}
+          element={
+            isLoggedIn ? <AdminPanel /> : <Navigate to="/admin/login" replace />
+          }
         />
       </Routes>
     </BrowserRouter>
